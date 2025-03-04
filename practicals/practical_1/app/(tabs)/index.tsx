@@ -7,7 +7,6 @@ const OnboardingScreen = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
 
-  // Content for each slide
   const slides = useMemo(() => [
     {
       image: require("../../assets/welcome.png"),
@@ -31,20 +30,18 @@ const OnboardingScreen = () => {
     },
   ], []);
 
-  // Memoize handlers to prevent recreating functions on re-renders
   const handleLogin = useCallback(() => {
-    router.push("/login");
+    router.push("/second");
   }, [router]);
 
   const handleSignup = useCallback(() => {
-    router.push("/signup");
+    router.push("/second");
   }, [router]);
 
   const handleSwiperIndexChanged = useCallback((index) => {
     setCurrentPage(index);
   }, []);
 
-  // Memoize the slide rendering function
   const renderSlides = useMemo(() => 
     slides.map((slide, index) => (
       <View key={index} style={styles.slide}>
@@ -58,16 +55,12 @@ const OnboardingScreen = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
       <View style={styles.header}>
-        {/* Gojek Logo */}
         <Image source={require("../../assets/gojek-logo.png")} style={styles.logo} />
-        
-        {/* Language Selection Button */}
         <TouchableOpacity style={styles.languageButton}>
           <Text style={styles.languageText}>🌐 English</Text>
         </TouchableOpacity>
       </View>
       
-      {/* Swiper */}
       <View style={styles.swiperContainer}>
         <Swiper
           style={styles.wrapper}
@@ -84,26 +77,20 @@ const OnboardingScreen = () => {
         </Swiper>
       </View>
 
-      {/* Title & Subtitle - Dynamic based on current slide */}
       <View style={styles.textContainer}>
         <Text style={styles.title}>{slides[currentPage].title}</Text>
         <Text style={styles.subtitle}>{slides[currentPage].subtitle}</Text>
       </View>
 
-      {/* Buttons Container */}
       <View style={styles.buttonContainer}>
-        {/* Login Button */}
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}> 
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
-
-        {/* Signup Button */}
         <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
           <Text style={styles.signupText}>I'm new, sign me up</Text>
         </TouchableOpacity>
       </View>
       
-      {/* Footer */}
       <View style={styles.footerContainer}>
         <Text style={styles.footer}>
           By logging in or registering, you agree to our{" "}
