@@ -11,7 +11,7 @@ I implemented three authentication methods using Supabase:
   <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image.png" width="30%">
   <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%201.png" width="30%">
   <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%202.png" width="30%">
-  <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%203.png" width="30%">
+  <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%203.png" width="100%">
 </div>
 
 - **Magic Link Authentication**: Enabled passwordless login by implementing Supabase's `auth.signInWithOtp` method, allowing users to receive a one-time magic link via email for seamless access.
@@ -22,9 +22,7 @@ I implemented three authentication methods using Supabase:
 
 <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%206.png" width="30%">
 
-<img src="SWE%20p2%201d3d813d6e42803bb026e вдоль by a user.
-
-<img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%207.png" width="30%">
+<img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%207.png" width="100%">
 
 - **Phone Login Authentication**: Integrated phone-based authentication using `auth.signInWithOtp` for sending OTPs to users’ phone numbers and `auth.verifyOtp` for verification. Tested workflows for both SMS delivery and user login.
 
@@ -38,7 +36,7 @@ I implemented three authentication methods using Supabase:
 
 <img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%2012.png" width="30%">
 
-<img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%2013.png" width="30%">
+<img src="SWE%20p2%201d3d813d6e42803bb026e600f08631cf/image%2013.png" width="100%">
 
 All implementations were tested in a development environment, ensuring proper integration with a front-end interface and Supabase’s dashboard for user management.
 
