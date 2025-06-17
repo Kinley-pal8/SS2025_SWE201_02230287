@@ -1,54 +1,98 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { supabase } from "./lib/supabase";
-import { Session } from "@supabase/supabase-js";
+
+// Import your screens
+import Splash from "./components/Splash";
 import SignUpOrLogIn from "./components/SignUpOrLogIn";
 import Auth from "./components/Auth";
-import Account from "./components/Account";
 import Home from "./components/Home";
-import Splash from "./components/Splash";
+import Account from "./components/Account";
 
-const Stack = createStackNavigator();
+// Define the navigation stack's param list
+export type RootStackParamList = {
+  Splash: undefined;
+  SignUpOrLogIn: undefined;
+  Auth: {
+    method: "email" | "phone";
+    userType: "artist" | "listener";
+    action: "signin" | "signup";
+  };
+  Home: { session: any };
+  Account: { session: any };
+};
 
-export default function App() {
-  const [session, setSession] = useState<Session | null>(null);
+const Stack = createStackNavigator<RootStackParamList>();
 
-  useEffect(() => {
-    // get the session when app starts
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    // listen for login/logout changes
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
-
+export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {session && session.user ? (
-          <>
-            {/* show home and account if logged in */}
-            <Stack.Screen
-              name="Home"
-              children={() => <Home session={session} />}
-            />
-            <Stack.Screen
-              name="Account"
-              children={({ route }) => <Account session={route.params.session} />}
-            />
-          </>
-        ) : (
-          <>
-            {/* show splash, signup, and auth if not logged in */}
-            <Stack.Screen name="Splash" component={Splash} />
-            <Stack.Screen name="SignUpOrLogIn" component={SignUpOrLogIn} />
-            <Stack.Screen name="Auth" component={Auth} />
-          </>
-        )}
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerShown: false, // Hide headers for all screens
+          gestureEnabled: true,
+          cardStyleInterpolator: ({ current, layouts }) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            };
+          },
+        }}
+      >
+        {/* Splash Screen */}
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{
+            animationEnabled: false,
+          }}
+        />
+
+        {/* Sign Up or Log In Screen */}
+        <Stack.Screen
+          name="SignUpOrLogIn"
+          component={SignUpOrLogIn}
+          options={{
+            title: "Get Started",
+          }}
+        />
+
+        {/* Auth Screen (Email/Phone + User Type) */}
+        <Stack.Screen
+          name="Auth"
+          component={Auth}
+          options={{
+            title: "Authentication",
+          }}
+        />
+
+        {/* Home Screen */}
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Home",
+            gestureEnabled: false, // Prevent swipe back from home
+          }}
+        />
+
+        {/* Account/Settings Screen */}
+        <Stack.Screen
+          name="Account"
+          component={Account}
+          options={{
+            title: "Account",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
